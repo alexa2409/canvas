@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAINT-CANVAS</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family:Verdana, Tahoma, sans-serif;
+    background-color: #b34fa9;
+  }
+
+  header {
+    background-color: #521036;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+  }
+
+  #canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+  }
+
+  canvas {
+    border: 2px solid #444;
+    background-color: #fff;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>CANVAS</h1>
+  </header>
+  <div id="canvas-container">
+    <canvas id="paintCanvas" width="800" height="500"></canvas>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('paintCanvas');
+    const context = canvas.getContext('2d');
+    let painting = false;
+
+    canvas.addEventListener('mousedown', startPosition);
+    canvas.addEventListener('mouseup', endPosition);
+    canvas.addEventListener('mousemove', draw);
+
+    function startPosition(event) {
+      painting = true;
+      draw(event);
+    }
+
+    function endPosition() {
+      painting = false;
+      context.beginPath();
+    }
+
+    function draw(event) {
+      if (!painting) return;
+
+      context.lineWidth = 10;
+      context.lineCap = 'round';
+      context.strokeStyle ='purple';
+
+      context.lineTo(event.clientX - canvas.getBoundingClientRect().left, event.clientY - canvas.getBoundingClientRect().top);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(event.clientX - canvas.getBoundingClientRect().left, event.clientY - canvas.getBoundingClientRect().top);
+    }
+  </script>
+</body>
+</html>
